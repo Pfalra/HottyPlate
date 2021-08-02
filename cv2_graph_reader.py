@@ -13,10 +13,9 @@ import pandas as pd
 # Global variables
 # If the max y-axis value is the highest point of the curve and not the highest point of the graph set this to the value
 max_value = 260
+filename = ""
+tesseract_name = ""
 
-# Pytesseract is a neural network designed to detect text or numbers, this is used to detect the y and x axis values
-# Load it here
-pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 
 
 # Callback function, which takes care of the cropping of the pdf images
@@ -190,7 +189,10 @@ def get_image(path="graph_pdf.pdf"):
 
 
 # Main function
-def process(path):
+def process(path, tesseract):
+    # Pytesseract is a neural network designed to detect text or numbers, this is used to detect the y and x axis values
+    # Load it here
+    pytesseract.pytesseract.tesseract_cmd = tesseract
     # get images in the form {(y axis, x axis, graph) x n }
     images = get_image(path)
     # Set up variables
@@ -330,10 +332,24 @@ def process(path):
 def askopenfilename():
     # get filename, this is the bit that opens up the dialog box this will
     # return a string of the file name you have clicked on.
+    global filename, tesseract_name
     filename = filedialog.askopenfilename()
     if filename:
-        # Will print the file name to the text box
-        process(filename)
+        if tesseract_name is not "":
+            # Will print the file name to the text box
+            process(filename, tesseract_name)
+
+
+# Starts processing if the file is chosen
+def askopenfilename1():
+    # get filename, this is the bit that opens up the dialog box this will
+    # return a string of the file name you have clicked on.
+    global filename, tesseract_name
+    tesseract_name = filedialog.askopenfilename()
+    if tesseract_name:
+        if filename is not "":
+            # Will print the file name to the text box
+            process(filename, tesseract_name)
 
 
 # Main setting up the small 'GUI'
@@ -346,10 +362,9 @@ if __name__ == '__main__':
     # The method the button executes is the askopenfilename from above
     # You don't use askopenfilename() because you only want to bind the button
     # to the function, then the button calls the function.
-    label = Label(root, text="Choose your PDF File")
-    label.pack()
-    button = Button(root, text='GetFileName', command=askopenfilename)
-    button.pack()
+    label = Label(root, text="Choose your PDF File").grid(row=0)
+    button = Button(root, text='GetFileName', command=askopenfilename).grid(row=1)
+    button1 = Button(root, text='GetTesseractPath', command=askopenfilename1).grid(row=2)
     # Start the application mainloop
     root.mainloop()
 
