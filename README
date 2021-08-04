@@ -1,0 +1,17 @@
+NOTE: 
+The project only initializes some hardware for now. A system monitor was implemented but not tested yet. 
+It will serve as a safety mechanism as we are dealing with a lot of heat and nobody wants to die due to 
+a tiny PCB heater. Well... I guess nobody wants to die anyway.
+
+However as mentioned only a few initializations are made and nothing more. This is the first commit of 
+embedded code and the project is work in progress, so don't expect to much yet. To make the ESP32 connect 
+to your WiFi, create a file named "HP_Credentials.h" in the include directory and add following lines:
+
+#ifndef HP_CREDENTIALS_H
+#define HP_CREDENTIALS_H
+
+/* WiFi credentials */
+#define MY_SSID "YOUR SSID"
+#define MY_PWD "YOUR WIFI PASSWORD"
+
+#endif
