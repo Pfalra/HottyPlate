@@ -25,4 +25,9 @@
 /* WebServer */
 #define WEB_SRV_LED 4
 
+/* Display */
+#define OLED_WIDTH_PX 128
+#define OLED_HEIGHT_PX 64
+#define OLED_ADDR 0x3C
+
 #endif

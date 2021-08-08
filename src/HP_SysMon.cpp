@@ -86,22 +86,25 @@ void monSystem(void* MonObj)
     HP_SysMon* monSysPtr = (HP_SysMon*) MonObj;
     std::vector<HP_MonMod>* modVecPtr = monSysPtr->getModVec();
     HP_ModStatus stat;
-
-    for (int i = 0; i < (modVecPtr->size() / sizeof(HP_MonMod)); i++)
+    while(1)
     {
-        if (modVecPtr->at(i).getStatFunPtr)
+        Serial.println("SM: r");
+        for (int i = 0; i < (modVecPtr->size() / sizeof(HP_MonMod)); i++)
         {
-            stat = modVecPtr->at(i).getStatFunPtr();
-            switch(stat)
+            if (modVecPtr->at(i).getStatFunPtr)
             {
-                case MOD_HW_NOT_DETECTED: break;
-                case MOD_FAULT: break;
-                case MOD_NOT_INITIALIZED: break;
-                case MOD_INIT_RUNNING: break;
-                case MOD_FUNCTIONAL: break;
+                stat = modVecPtr->at(i).getStatFunPtr();
+                switch(stat)
+                {
+                    case MOD_HW_NOT_DETECTED: break;
+                    case MOD_FAULT: break;
+                    case MOD_NOT_INITIALIZED: break;
+                    case MOD_INIT_RUNNING: break;
+                    case MOD_FUNCTIONAL: break;
+                }
             }
         }
+        vTaskDelay(monSysPtr->getExecutionTime());
     }
-    vTaskDelay(monSysPtr->getExecutionTime());
 }
 

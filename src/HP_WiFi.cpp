@@ -34,6 +34,7 @@ HP_ModStatus HP_getWiFiStatus()
     /* Check RSSI */
     int32_t rssi = WiFi.RSSI();
 
+    return MOD_FUNCTIONAL;
 }
 
 bool HP_reconnectWiFi()
@@ -42,6 +43,7 @@ bool HP_reconnectWiFi()
     {
         WiFi.reconnect();
     }
+    return true;
 }
 
 void HP_reportWiFiEvent()

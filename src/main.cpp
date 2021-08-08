@@ -3,7 +3,6 @@
 #include <SD.h>
 #include <FS.h>
 
-
 /* HottyPlate includes */
 #include <HP_Types.h>
 #include <HP_WiFi.h>
@@ -11,6 +10,9 @@
 #include <HP_StatusDisplay.h>
 #include <HP_Settings.h>
 #include <HP_SysMon.hpp>
+#include <HP_Adc.h>
+#include <HP_Oled.h>
+
 
 HP_SysMon gSystemMonitor(SYSMON_EXEC_TIME);
 
@@ -41,13 +43,12 @@ void setup() {
     CreateAppInitTasks();
 
     gSystemMonitor.assignMod("WiFi-Mon", HP_getWiFiStatus, HP_reconnectWiFi, HP_reportWiFiEvent);
+    gSystemMonitor.startMon();
 }
-
 
 void loop() 
 {
 }
-
 
 void CreateAppInitTasks()
 {
@@ -84,17 +85,21 @@ void CreateAppInitTasks()
 void InitializeWiFi(void * param)
 {
     /* Start WiFi */
-    Serial.println("Starting WiFi.");
+    Serial.println("I>Starting WiFi.");
     HP_initializeWiFi(MY_SSID, MY_PWD);
-    Serial.println("WiFi init done");
+    Serial.println("I>WiFi init done");
     /* Make task only execute once */
     vTaskDelete(initWiFiHandle);
 }
 
 void InitializeOther(void * param)
 {
-    Serial.println("Initializing other hardware");
-    Serial.println("Other hardware init done");
+    Serial.println("\r\nI>Initializing other hardware");
+    /* Initialize I2C Devices */
+    HP_Adc_init();
+    HP_Oled_init();
+
+    Serial.println("\r\nI>Other hardware init done");
     vTaskDelete(initOtherHandle);
 }
 
@@ -102,7 +107,7 @@ void InitializeSD(void * param)
 {
     /* Initialize SD */
     HP_SD_Init(SD_OVER_SPI);
-    Serial.println("SD init done");
+    Serial.println("I>SD init done");
     vTaskDelete(initSDHandle);
 }
 
