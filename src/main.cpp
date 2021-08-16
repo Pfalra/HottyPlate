@@ -12,6 +12,8 @@
 #include <HP_SysMon.hpp>
 #include <HP_Adc.h>
 #include <HP_Oled.h>
+#include <HP_Graphics.h>
+
 
 
 HP_SysMon gSystemMonitor(SYSMON_EXEC_TIME);
@@ -39,6 +41,8 @@ void setup() {
     /* Initialize Neopixel */
     HP_StatusDisplay_Init(STATUSLED_PIN);
 
+    /* Initialize OLED */
+    HP_Oled_init();
     /* Create tasks for initialization */
     CreateAppInitTasks();
 
@@ -65,7 +69,7 @@ void CreateAppInitTasks()
     xTaskCreate(
         InitializeOther,    // Function that should be called
         "Initialize Other", // Name of the task (for debugging)
-        4096,            // Stack size (bytes)
+        8192,            // Stack size (bytes)
         NULL,            // Parameter to pass
         2,               // Task priority
         &initOtherHandle
@@ -95,9 +99,8 @@ void InitializeWiFi(void * param)
 void InitializeOther(void * param)
 {
     Serial.println("\r\nI>Initializing other hardware");
-    /* Initialize I2C Devices */
+    /* Initialize ADC */
     HP_Adc_init();
-    HP_Oled_init();
 
     Serial.println("\r\nI>Other hardware init done");
     vTaskDelete(initOtherHandle);

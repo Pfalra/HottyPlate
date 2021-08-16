@@ -4,7 +4,7 @@
 #include <HP_Credentials.h>
 
 /* Monitoring */
-#define SYSMON_EXEC_TIME 500
+#define SYSMON_EXEC_TIME 1000
 
 /* WiFi */
 #define WIFI_LED 0
