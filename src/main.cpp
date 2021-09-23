@@ -13,7 +13,7 @@
 #include <HP_Adc.h>
 #include <HP_Oled.h>
 #include <HP_Graphics.h>
-
+#include <HP_UiMenu.h>
 
 
 HP_SysMon gSystemMonitor(SYSMON_EXEC_TIME);
