@@ -43,10 +43,13 @@ void setup() {
 
     /* Initialize OLED */
     HP_Oled_init();
+    vTaskDelay(1000);
+    HP_Ui_ShowMainMenu();
     /* Create tasks for initialization */
     CreateAppInitTasks();
 
     gSystemMonitor.assignMod("WiFi-Mon", HP_getWiFiStatus, HP_reconnectWiFi, HP_reportWiFiEvent);
+    gSystemMonitor.assignMod("SD-Mon", HP_getSDStatus, HP_reconnectSD, HP_reportSDEvent);
     gSystemMonitor.startMon();
 }
 

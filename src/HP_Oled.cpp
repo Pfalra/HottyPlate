@@ -1,6 +1,5 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
 
 #include <HP_Settings.h>
 #include <HP_Oled.h>
@@ -105,4 +104,12 @@ void HP_Oled_init()
     oled.println("V0.1");
     oled.display();
     Serial.println("Showing Logo");
+
+    /* Show the main menu after startup*/
+    vTaskDelay(1000);
+}
+
+Adafruit_SSD1306* HP_Oled_getOLED()
+{
+    return &oled;
 }

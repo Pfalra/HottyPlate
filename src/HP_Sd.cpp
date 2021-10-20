@@ -3,8 +3,11 @@
 #include <SD.h>
 #include <Arduino.h>
 #include <HP_StatusDisplay.h>
+#include <HP_Types.h>
 
 #define SD_CS 5
+
+bool HP_SDReader_connected = false;
 
 void HP_SD_Init(HP_Sdmode mode)
 {
@@ -23,6 +26,8 @@ void HP_SD_Init(HP_Sdmode mode)
         vTaskDelay(500);
       }
     }
+
+    HP_SDReader_connected = true;
 
     uint8_t cardType = SD.cardType();
 
@@ -61,4 +66,39 @@ void HP_SD_Init(HP_Sdmode mode)
   {
     // TODO
   } 
+}
+
+HP_ModStatus HP_getSDStatus()
+{
+  sdcard_type_t cardType = SD.cardType();
+  
+  if (cardType == CARD_NONE || cardType == CARD_UNKNOWN)
+  {
+    return MOD_FAULT;
+  }
+
+  if (!HP_SDReader_connected)
+  {
+    return MOD_HW_NOT_DETECTED;
+  }
+
+  return MOD_FUNCTIONAL;
+}
+
+
+bool HP_reconnectSD()
+{
+  if (!SD.begin(SD_CS))
+  {
+    Serial.println("ERROR: Was not able to mount SD!");
+    return false;
+  }
+
+  return true;
+}
+
+
+void HP_reportSDEvent()
+{
+
 }

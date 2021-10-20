@@ -88,7 +88,7 @@ void monSystem(void* MonObj)
     HP_ModStatus stat;
     while(1)
     {
-        Serial.println("SM: r");
+        // Serial.println("SM: r");
         for (int i = 0; i < (modVecPtr->size() / sizeof(HP_MonMod)); i++)
         {
             if (modVecPtr->at(i).getStatFunPtr)
