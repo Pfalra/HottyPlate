@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#define NULL 0x0
+// #define NULL 0x0
 
 #define MAX_NUM_MODULES 10
 #define MAX_MODNAME_LEN 24

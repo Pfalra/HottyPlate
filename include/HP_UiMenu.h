@@ -16,7 +16,7 @@ typedef struct HP_MenuItem_e
     char itemStr[MAX_MENUSTR_LEN];
     bool active;
     bool selected;
-    void* clickAction;
+    void (*clickAction)();
     uint8_t textSize;
 } HP_MenuItem;
 

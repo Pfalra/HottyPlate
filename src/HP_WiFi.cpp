@@ -34,6 +34,12 @@ HP_ModStatus HP_getWiFiStatus()
     /* Check RSSI */
     int32_t rssi = WiFi.RSSI();
 
+    if (Serial.available())
+    {
+        Serial.printf("WiFi sleep status: %i", sleep);
+        Serial.printf("WiFi RSSI: %d", rssi);
+    }
+
     return MOD_FUNCTIONAL;
 }
 

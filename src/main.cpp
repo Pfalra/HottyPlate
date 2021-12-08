@@ -14,6 +14,7 @@
 #include <HP_Oled.h>
 #include <HP_Graphics.h>
 #include <HP_UiMenu.h>
+#include <HP_Buttons.h>
 
 
 HP_SysMon gSystemMonitor(SYSMON_EXEC_TIME);
@@ -38,6 +39,9 @@ void setup() {
     Serial.println("Hotty starting up...");
     vTaskDelay(200);
 
+    /* Initialize Buttons and interrupts */
+    HP_Buttons_init();
+
     /* Initialize Neopixel */
     HP_StatusDisplay_Init(STATUSLED_PIN);
 
@@ -45,6 +49,7 @@ void setup() {
     HP_Oled_init();
     vTaskDelay(1000);
     HP_Ui_ShowMainMenu();
+    
     /* Create tasks for initialization */
     CreateAppInitTasks();
 
